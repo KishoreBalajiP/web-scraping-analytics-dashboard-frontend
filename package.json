@@ -1,17 +1,16 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "web-scraping-analytics-dashboard",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4",
     "axios": "^1.13.6",
     "chart.js": "^4.5.1",
     "lucide-react": "^0.344.0",

@@ -1,60 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
+import { Mail } from "../types/Mail";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+});
 
-export interface Message {
-  sender: string;
-  subject: string;
-  category: string;
-  timestamp: string;
-}
+export const fetchEmails = async (): Promise<Mail[]> => {
+  const res = await API.get("/mail/fetch");
+  return res.data.data;
+};
 
-export interface CategoryCount {
-  _id: string;
-  count: number;
-}
-
-export interface DailyCount {
-  _id: string;
-  count: number;
-}
-
-export interface AnalyticsData {
-  totalMessages: number;
-  categoryCounts: CategoryCount[];
-  dailyCounts: DailyCount[];
-}
-
-export interface TelemetryData {
-  lastScrapeTime: string;
-  totalMessagesStored: number;
-  numberOfScrapes: number;
-  recordsInsertedLastRun: number;
-}
-
-export interface ScrapeResponse {
-  message: string;
-  inserted: number;
-}
-
-export const api = {
-  runScraper: async (): Promise<ScrapeResponse> => {
-    const response = await axios.get(`${API_BASE_URL}/scrape`);
-    return response.data;
-  },
-
-  getMessages: async (): Promise<Message[]> => {
-    const response = await axios.get(`${API_BASE_URL}/messages`);
-    return response.data;
-  },
-
-  getAnalytics: async (): Promise<AnalyticsData> => {
-    const response = await axios.get(`${API_BASE_URL}/analytics`);
-    return response.data;
-  },
-
-  getTelemetry: async (): Promise<TelemetryData> => {
-    const response = await axios.get(`${API_BASE_URL}/telemetry`);
-    return response.data;
-  },
+export const searchEmails = async (
+  keyword: string
+): Promise<Mail[]> => {
+  const res = await API.get(`/mail/search/${keyword}`);
+  return res.data.emails;
 };
