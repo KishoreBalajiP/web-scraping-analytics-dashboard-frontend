@@ -23,6 +23,7 @@ interface Props {
 }
 
 const StatsChart = ({ emails }: Props) => {
+
   const senderMap: Record<string, number> = {};
 
   emails.forEach((mail) => {
@@ -30,19 +31,49 @@ const StatsChart = ({ emails }: Props) => {
       (senderMap[mail.from] || 0) + 1;
   });
 
+  // Limit to top 6 senders (prevents overcrowding)
+  const sortedSenders = Object.entries(senderMap)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6);
+
   const data = {
-    labels: Object.keys(senderMap),
+    labels: sortedSenders.map(([sender]) =>
+      sender.length > 18
+        ? sender.substring(0, 18) + "..."
+        : sender
+    ),
     datasets: [
       {
         label: "Emails per sender",
-        data: Object.values(senderMap),
+        data: sortedSenders.map(
+          ([, count]) => count
+        ),
+        borderRadius: 8,
       },
     ],
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          maxRotation: 0,
+          minRotation: 0,
+        },
+      },
+    },
+  };
+
   return (
-    <div className="mt-6">
-      <Bar data={data} />
+    <div className="h-[320px]">
+      <Bar data={data} options={options} />
     </div>
   );
 };

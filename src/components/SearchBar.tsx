@@ -10,22 +10,22 @@ const SearchBar = ({
   onSearch,
 }: Props) => {
   return (
-    <div className="flex gap-2 mt-4 mb-6">
+    <div className="flex w-full md:w-auto gap-2">
+
       <input
-        className="border px-4 py-2 rounded w-full"
-        placeholder="Search keyword..."
+        className="border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none px-4 py-2 rounded-lg w-full md:w-64"
+        placeholder="Search emails..."
         value={keyword}
-        onChange={(e) =>
-          setKeyword(e.target.value)
-        }
+        onChange={(e) => setKeyword(e.target.value)}
       />
 
       <button
         onClick={onSearch}
-        className="bg-indigo-600 text-white px-4 rounded"
+        className="bg-gray-800 hover:bg-black transition text-white px-5 rounded-lg"
       >
         Search
       </button>
+
     </div>
   );
 };
